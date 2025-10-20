@@ -3,68 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chúc Mừng 20/10</title>
+    <title>Chúc Mừng 20/10 - Bức Thư Vô Tận</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-      /*
-         * CHÂN DUNG (PERSONA): UI Engineer Cao cấp
-         * PHONG CÁCH: Hiện đại & Đáng yêu (Modern & Cute)
-         * KỸ THUẬT: CSS Variables, Flexbox, CSS Animations (Keyframes), Transitions.
-         */
-
-      /* --- 1. Biến CSS & Thiết lập Chung --- */
+      /* ===== CSS VARIABLES & THEME ===== */
       :root {
-        --primary-pink: #ffc0cb; /* Hồng nhạt (cute) */
-        --primary-red: #e91e63; /* Hồng đậm/Đỏ (chủ đạo) */
-        --light-pink: #fde7ea; /* Hồng rất nhạt (nền thư) */
+        --red-main: #dc143c;
+        --red-dark: #a0102e;
+        --pink-light: #ff69b4;
+        --pink-pale: #ffb6c1; /* Dùng màu này cho trái tim bay */
+        --red-shadow: rgba(220, 20, 60, 0.15);
+        --pink-shadow: rgba(255, 105, 180, 0.1);
         --white: #ffffff;
-        --grey: #f0f0f0; /* Màu giấy */
-        --dark-grey: #555; /* Màu chữ */
-        --shadow: rgba(0, 0, 0, 0.1);
-        --duration-fast: 0.5s;
-        --duration-slow: 0.7s;
+        --duration-fast: 0.6s;
+        --duration-mid: 1.2s;
+        --duration-slow: 2s;
       }
 
-      *,
-      *::before,
-      *::after {
+      * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
 
+      html,
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
-        display: grid; /* Sử dụng Grid để căn giữa hoàn hảo */
-        place-items: center;
-        min-height: 100vh;
-        background: linear-gradient(
-          135deg,
-          var(--white) 0%,
-          var(--light-pink) 100%
-        );
-        overflow: hidden; /* Ẩn các trái tim bay ra khỏi màn hình */
-        position: relative;
-        color: var(--dark-grey);
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
       }
 
-      /* --- 2. Hiệu ứng Nền (Trái tim bay) --- */
-      /* * Sử dụng 10 phần tử tĩnh, mỗi phần tử được gán animation
-         * và vị trí ngẫu nhiên để tối ưu hiệu suất (Pure CSS).
-         */
+      body {
+        font-family: "Lora", serif;
+        background: linear-gradient(
+          135deg,
+          #fff5f7 0%,
+          #ffe0e6 50%,
+          #ffd9e3 100%
+        );
+        color: var(--red-dark);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ===== HIỆU ỨNG TRÁI TIM (TỪ CODE CŨ) ===== */
       .heart-container {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        pointer-events: none; /* Cho phép click xuyên qua */
-        z-index: 0;
+        pointer-events: none;
+        z-index: 0; /* Nằm dưới cùng */
       }
 
       .heart {
         position: absolute;
-        bottom: -20px; /* Bắt đầu từ bên dưới */
+        bottom: -20px;
         animation: flyUp 10s linear infinite;
       }
 
@@ -74,8 +78,9 @@
         content: "";
         position: absolute;
         width: 10px;
-        height: 16px; /* Chiều cao lớn hơn chiều rộng */
-        background: var(--primary-pink);
+        height: 16px;
+        /* Sử dụng biến màu mới */
+        background: var(--pink-pale);
         border-radius: 10px 10px 0 0;
         opacity: 0.7;
       }
@@ -85,7 +90,7 @@
       }
 
       .heart::after {
-        left: 5px; /* Dịch chuyển để tạo hình trái tim */
+        left: 5px;
         transform: rotate(45deg);
       }
 
@@ -96,12 +101,12 @@
           opacity: 0.8;
         }
         100% {
-          transform: translateY(-110vh) scale(1); /* Bay cao hơn viewport */
+          transform: translateY(-110vh) scale(1);
           opacity: 0;
         }
       }
 
-      /* Phân bổ ngẫu nhiên vị trí, delay và kích thước */
+      /* Phân bổ ngẫu nhiên 10 trái tim ban đầu */
       .heart:nth-child(1) {
         left: 10%;
         animation-delay: 0s;
@@ -152,144 +157,438 @@
         animation-delay: 3.5s;
         transform: scale(1);
       }
+      /* ===== KẾT THÚC HIỆU ỨNG TRÁI TIM ===== */
 
-      /* --- 3. Phong bì & Lá thư (Thành phần chính) --- */
-
-      /* * Đây là thành phần chính, xử lý logic click và chứa các phần tử con.
-         * z-index: 10 để nổi lên trên nền trái tim.
-         */
-      .envelope-wrapper {
-        position: relative;
-        width: 550px;
-        height: 400px;
-        cursor: pointer;
-        z-index: 10;
-        transition: all var(--duration-slow) ease-in-out;
-        margin: auto;
-      }
-
-      /* Thân phong bì (mặt sau) */
-      .envelope {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: var(--primary-pink);
-        border-radius: 8px;
-        box-shadow: 0 4px 15px var(--shadow);
-        /* Tạo nếp gấp tam giác bên trái và phải */
-        &::before,
-        &::after {
-          content: "";
-          position: absolute;
-          width: 0;
-          height: 0;
-          border-style: solid;
-          top: 0;
-        }
-        /* Nếp gấp trái */
-        &::before {
-          left: 0;
-          border-width: 100px 0 100px 150px;
-          border-color: transparent transparent transparent var(--primary-red);
-          opacity: 0.8;
-        }
-        /* Nếp gấp phải */
-        &::after {
-          right: 0;
-          border-width: 100px 150px 100px 0;
-          border-color: transparent var(--primary-red) transparent transparent;
-          opacity: 0.8;
-        }
-      }
-
-      /* Nắp phong bì (sẽ lật) */
-      .flap {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        /* Vẽ hình tam giác bằng clip-path */
-        clip-path: polygon(0 0, 100% 0, 50% 60%);
-        background: var(--primary-red);
+      /* ===== PARTICLE EFFECTS (FAIRY DUST) ===== */
+      .particles {
+        position: fixed;
         top: 0;
         left: 0;
-        transform-origin: top center; /* Lật từ cạnh trên */
-        transition: transform var(--duration-fast) ease-in-out;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1; /* Nằm trên trái tim */
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: radial-gradient(circle, var(--pink-light), transparent);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--pink-light);
+        opacity: 0.4;
+        filter: blur(1px);
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.8;
+        }
+        90% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-100vh) translateX(100px);
+          opacity: 0;
+        }
+      }
+
+      @keyframes drift {
+        0%,
+        100% {
+          transform: translateX(0px);
+        }
+        50% {
+          transform: translateX(30px);
+        }
+      }
+
+      .particle {
+        animation: float linear infinite, drift ease-in-out infinite;
+      }
+
+      /* ===== ENVELOPE CONTAINER (MAIN) ===== */
+      .main-container {
+        position: relative;
+        z-index: 10; /* Nằm trên cả 2 hiệu ứng nền */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--duration-mid) ease;
+      }
+
+      .envelope-static {
+        position: relative;
+        width: 520px;
+        height: 360px;
+        cursor: pointer;
+        perspective: 1200px;
+        transition: all var(--duration-mid) cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .envelope-static:hover:not(.opened) {
+        transform: translateY(-8px);
+        filter: drop-shadow(0 20px 40px var(--red-shadow));
+      }
+
+      /* Envelope Body */
+      .envelope-body {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #fff0f5 0%, #ffc0e0 100%);
+        border-radius: 12px;
+        box-shadow: 0 10px 40px var(--red-shadow),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        overflow: hidden;
+      }
+
+      .envelope-body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--red-main),
+          transparent
+        );
+        z-index: 5;
+      }
+
+      .envelope-body::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle at 20% 50%,
+          rgba(255, 105, 180, 0.05),
+          transparent 50%
+        );
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Flap (Nắp phong bì) */
+      .flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 180px;
+        background: linear-gradient(
+          135deg,
+          var(--red-main) 0%,
+          var(--pink-light) 100%
+        );
+        clip-path: polygon(0 0, 100% 0, 50% 65%, 0 0);
+        transform-origin: top center;
+        transition: transform var(--duration-mid)
+          cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 20;
+        cursor: pointer;
+        box-shadow: 0 8px 20px var(--pink-shadow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        opacity: 0.95;
+      }
+
+      .flap::before {
+        content: "\f2a3";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 600;
+        color: white;
+        font-size: 2.5rem;
+        position: absolute;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all var(--duration-fast);
+      }
+
+      .envelope-static:hover .flap::before,
+      .envelope-static:focus .flap::before {
+        opacity: 1;
+        transform: scale(1) rotateZ(5deg);
+      }
+
+      /* Fold Lines */
+      .fold-left,
+      .fold-right {
+        position: absolute;
+        top: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
         z-index: 15;
       }
 
-      /* Lá thư (ẩn bên trong) */
-      .letter {
+      .fold-left {
+        left: 0;
+        border-width: 90px 0 90px 130px;
+        border-color: transparent transparent transparent rgba(220, 20, 60, 0.5);
+      }
+
+      .fold-right {
+        right: 0;
+        border-width: 90px 130px 90px 0;
+        border-color: transparent rgba(220, 20, 60, 0.5) transparent transparent;
+      }
+
+      /* Letter Content Container */
+      .letter-scroll {
         position: absolute;
-        top: 10px; /* Hở 1 chút ở trên */
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-        background: var(--grey);
+        top: 180px;
+        left: 25px;
+        right: 25px;
+        height: calc(100% - 205px);
+        background: var(--white);
+        border-radius: 8px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 30px 25px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all var(--duration-slow) cubic-bezier(0.34, 1.56, 0.64, 1);
+        z-index: 5;
+        scrollbar-width: thin;
+        scrollbar-color: var(--pink-light) var(--white);
+        box-shadow: inset 0 2px 10px var(--red-shadow);
+      }
+
+      .letter-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .letter-scroll::-webkit-scrollbar-track {
+        background: var(--white);
+        border-radius: 10px;
+      }
+
+      .letter-scroll::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--pink-light), var(--red-main));
+        border-radius: 10px;
+        box-shadow: 0 0 6px var(--pink-shadow);
+      }
+
+      .letter-scroll::-webkit-scrollbar-thumb:hover {
+        background: var(--red-main);
+      }
+
+      /* Letter Content */
+      .letter-content {
+        font-size: 1.1rem;
+        line-height: 1.9;
+        color: var(--red-dark);
+        text-align: justify;
+      }
+
+      .letter-header {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--red-main);
+        margin-bottom: 24px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        animation: fadeInDown 1s ease-out 0.3s both;
+      }
+
+      .letter-section {
+        margin-bottom: 24px;
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+      }
+
+      .letter-section:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .letter-section:nth-child(3) {
+        animation-delay: 0.5s;
+      }
+      .letter-section:nth-child(4) {
+        animation-delay: 0.6s;
+      }
+      .letter-section:nth-child(5) {
+        animation-delay: 0.7s;
+      }
+      .letter-section:nth-child(6) {
+        animation-delay: 0.8s;
+      }
+      .letter-section:nth-child(7) {
+        animation-delay: 0.9s;
+      }
+      .letter-section:nth-child(8) {
+        animation-delay: 1s;
+      }
+
+      /* Lớp CSS mới này không có trong CSS cũ của bạn,
+         nhưng code HTML có gọi, tôi tạm định nghĩa nó
+         để không bị lỗi */
+      .wishes-box {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 240, 245, 0.5),
+          rgba(255, 228, 236, 0.5)
+        );
+        border-left: 4px solid var(--pink-light);
         padding: 20px;
         border-radius: 6px;
-        box-shadow: 0 2px 10px var(--shadow) inset;
-        z-index: 5; /* Nằm dưới nắp, trên thân */
-
-        /* Trạng thái ban đầu: Bị ẩn */
-        transform: translateY(0);
-        opacity: 0;
-        transition: transform var(--duration-slow) ease-in-out,
-          opacity var(--duration-fast);
-        /* Delay cho lá thư: Chỉ trượt ra SAU KHI nắp đã mở */
-        transition-delay: 0s;
-      }
-
-      .letter p {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .letter .signature {
-        text-align: right;
-        margin-top: 20px;
+        margin: 20px 0;
         font-style: italic;
-        color: rgb(43, 42, 42);
+        color: var(--red-dark);
       }
 
-      /* --- 4. Trạng thái "Mở" (Kích hoạt bằng JS) --- */
+      .divider {
+        text-align: center;
+        margin: 28px 0;
+        font-size: 1.4rem;
+        color: var(--pink-light);
+        opacity: 0.6;
+        letter-spacing: 4px;
+      }
 
-      /* Khi .envelope-wrapper có class 'open' */
-      .envelope-wrapper.open .flap {
-        /* Lật nắp 180 độ */
+      .signature {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        color: var(--red-dark);
+        margin-top: 32px;
+        text-align: right;
+        font-weight: 600;
+      }
+
+      .signature-name {
+        display: block;
+        margin-top: 8px;
+        font-size: 0.95rem;
+        font-style: italic;
+      }
+
+      /* ===== OPEN STATE ===== */
+      .envelope-static.opened {
+        height: 90vh;
+        width: 90vw;
+        max-width: 700px;
+        max-height: 600px;
+      }
+
+      .envelope-static.opened .flap {
         transform: rotateX(180deg);
         z-index: 1;
-        transition-delay: 0s;
       }
 
-      .envelope-wrapper.open .letter {
-        transform: translateY(-120px);
+      .envelope-static.opened .letter-scroll {
         opacity: 1;
-        z-index: 20; /* Nổi lên trên cùng */
-        transition-delay: var(--duration-fast);
+        transform: translateY(0);
+        z-index: 25;
       }
 
-      /* Thay đổi kích thước phong bì khi mở để lá thư nổi bật */
-      .envelope-wrapper.open {
-        height: 250px; /* Tăng chiều cao để chứa lá thư */
+      /* ===== ANIMATIONS ===== */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
-      /* --- 5. Responsive --- */
-      @media (max-width: 400px) {
-        .envelope-wrapper {
-          width: 280px;
-          height: 187px;
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bloom {
+        0% {
+          opacity: 0;
+          transform: scale(0) rotate(0deg);
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1) rotate(360deg);
+        }
+      }
+
+      /* ===== BLOOM EFFECT ON OPEN ===== */
+      .bloom-particle {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+        animation: bloom 1.5s ease-out forwards;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .envelope-static {
+          width: 85vw;
+          height: auto;
+          aspect-ratio: 520 / 360;
         }
 
-        .envelope-wrapper.open {
-          height: 230px;
+        .envelope-static.opened {
+          width: 95vw;
+          height: 85vh;
+          max-width: 100%;
+          max-height: 100%;
         }
 
-        .envelope-wrapper.open .letter {
-          transform: translateY(-110px);
+        .letter-scroll {
+          padding: 20px 18px;
         }
 
-        .letter p {
-          font-size: 0.9rem;
+        .letter-content {
+          font-size: 1rem;
+          line-height: 1.7;
+        }
+
+        .letter-header {
+          font-size: 1.5rem;
+          margin-bottom: 18px;
+        }
+
+        .fold-left {
+          border-width: 60px 0 60px 100px;
+        }
+        .fold-right {
+          border-width: 60px 100px 60px 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .letter-header {
+          font-size: 1.2rem;
+        }
+
+        .letter-content {
+          font-size: 0.95rem;
+          text-align: left;
         }
       }
     </style>
@@ -297,53 +596,171 @@
   <body>
     <div class="heart-container">
       <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
+      <div class="heart"></div>
     </div>
 
-    <div class="envelope-wrapper" id="envelope">
-      <div class="letter">
-        <p>Nhân ngày 20/10,</p>
-        <p>
-          Chúc cho một nửa thế giới luôn rạng rỡ, hạnh phúc , học giỏi và gặt
-          hái được nhiều thành công trong công việc cũng như cuộc sống.Và hơn
-          hết anh chúc em biết yêu thương chăm sóc bản thân mình thật tốt nho !
-        </p>
-        <p>Happy Vietnamese Women's Day!</p>
-        <p class="signature">
-          Nguyễn Hữu Văn Trí
-          <br />
-          Người em iu & người iu em
-        </p>
+    <div class="particles" id="particles"></div>
+
+    <div class="main-container">
+      <div class="envelope-static" id="envelope">
+        <div class="envelope-body">
+          <div class="fold-left"></div>
+          <div class="fold-right"></div>
+          <div class="flap"></div>
+          <div class="letter-scroll">
+            <div class="letter-content">
+              <div class="letter-header">
+                💝 20/10 - Ngày Của Phụ Nữ Việt Nam💝
+              </div>
+
+              <div class="letter-section">
+                <p>
+                  Nhân dịp ngày 20/10 - Ngày Phụ Nữ Việt Nam, anh muốn gửi đến
+                  bé iu những lời chúc tươi sáng nhất từ đáy lòng.
+                </p>
+              </div>
+
+              <div class="letter-section">
+                <p>
+                  Chúc cho một nửa thế giới của Hân luôn rạng rỡ, luôn tỏa sáng
+                  với vẻ đẹp của chính em. Chúc em luôn hạnh phúc, chúc em học
+                  hành tiến bộ, chúc em gặt hái được những thành công lớn trong
+                  công việc và cuộc sống.
+                </p>
+              </div>
+
+              <div class="wishes-box">
+                ✨ Chúc em sức khỏe dồi dào, tâm hồn thanh thản<br />
+                ✨ Chúc em luôn cười, luôn yêu đời<br />
+                ✨ Chúc em đạt được tất cả ước mơ <br />
+                ✨ Chúc em luôn mãi yêu thương nghiện anh không bao giờ rời xa
+              </div>
+
+              <div class="letter-section">
+                <p>
+                  Nhưng hơn hết, anh chúc em biết yêu thương, chăm sóc và trân
+                  trọng bản thân mình thật tốt. Vì một cô gái biết yêu thương
+                  chính mình sẽ tỏa sáng rực rỡ hơn bất kỳ ngôi sao nào trên bầu
+                  trời.
+                </p>
+              </div>
+
+              <div class="letter-section">
+                <p>
+                  Hãy nhớ rằng em xứng đáng được yêu thương, được tôn vinh, và
+                  được trân trọng. Mỗi nỗ lực nhỏ của em hôm nay là những hạt
+                  mưa đầu mùa, sẽ thấm vào đất và nảy mầm nên những bông hoa
+                  xinh đẹp của tương lai.
+                </p>
+              </div>
+
+              <div class="letter-section">
+                <p>
+                  Em là ánh sáng mà anh tin sẽ chiếu sáng bất cứ con đường nào
+                  em lựa chọn. Hãy tiếp tục đó, với niềm tin và tình yêu thương
+                  bản thân cũng như là Tình yêu của anh và em.
+                </p>
+              </div>
+
+              <div class="divider">✦ ✦ ✦</div>
+
+              <div class="letter-section">
+                <p style="text-align: center; font-style: italic">
+                  Happy Vietnamese Women's Day!
+                </p>
+              </div>
+
+              <div class="signature">
+                <span>Với yêu thương,</span>
+                <span class="signature-name">Nguyễn Hữu Văn Trí</span>
+                <span class="signature-name"
+                  >💕 Người em yêu quý & người yêu quý em 💕</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="flap"></div>
-
-      <div class="envelope"></div>
     </div>
 
     <script>
-      /*
-       * 3. JavaScript Tối giản (ES6)
-       * Nhiệm vụ: Xử lý sự kiện click để thêm/xóa class "open"
-       */
-
-      // Lấy phần tử phong bì
+      /* ===== PARTICLE SYSTEM ===== */
+      const particlesContainer = document.getElementById("particles");
       const envelope = document.getElementById("envelope");
+      // THÊM BIẾN CHO .heart-container
+      const heartContainer = document.querySelector(".heart-container");
 
-      // Thêm trình nghe sự kiện 'click'
+      function createParticles(count = 40) {
+        for (let i = 0; i < count; i++) {
+          const particle = document.createElement("div");
+          particle.classList.add("particle");
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.bottom = "-20px";
+          particle.style.animationDuration = 8 + Math.random() * 8 + "s";
+          particle.style.animationDelay = Math.random() * 4 + "s";
+          particle.style.width = 2 + Math.random() * 4 + "px";
+          particle.style.height = particle.style.width;
+          particlesContainer.appendChild(particle);
+
+          setTimeout(() => {
+            particle.remove();
+            createParticles(1);
+          }, (8 + Math.random() * 8) * 1000);
+        }
+      }
+
+      function createBloomParticle(x, y) {
+        const particle = document.createElement("div");
+        particle.classList.add("bloom-particle");
+        particle.style.left = x + "px";
+        particle.style.top = y + "px";
+        particle.textContent = ["💕", "✨", "🌸", "💖"][
+          Math.floor(Math.random() * 4)
+        ];
+        particle.style.fontSize = 20 + Math.random() * 30 + "px";
+        particlesContainer.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 1500);
+      }
+
+      /* ===== ENVELOPE INTERACTION ===== */
       envelope.addEventListener("click", () => {
-        // Thêm hoặc xóa class 'open' khi click
-        // Dùng toggle() cho phép đóng/mở, nếu chỉ muốn mở 1 lần, dùng classList.add('open')
-        envelope.classList.toggle("open");
+        envelope.classList.toggle("opened");
 
-        for (let i = 30; i <= 100; i++) {
-          const heart = document.createElement("div");
-          heart.classList.add("heart");
-          heart.style.left = Math.random() * 100 + "%";
-          heart.style.animationDelay = Math.random() * 10 + "s";
-          heart.style.transform = "scale(" + (Math.random() + 0.5) + ")";
-          document.querySelector(".heart-container").appendChild(heart);
+        if (envelope.classList.contains("opened")) {
+          // Hiệu ứng bloom mới (giữ nguyên)
+          const rect = envelope.getBoundingClientRect();
+          for (let i = 0; i < 12; i++) {
+            const x = rect.left + Math.random() * rect.width;
+            const y = rect.top + Math.random() * rect.height;
+            createBloomParticle(x, y);
+          }
+
+          // THÊM HIỆU ỨNG TẠO TIM KHI CLICK (TỪ CODE CŨ)
+          if (heartContainer) {
+            for (let i = 0; i < 100; i++) {
+              const heart = document.createElement("div");
+              heart.classList.add("heart");
+              heart.style.left = Math.random() * 100 + "%";
+              heart.style.animationDelay = Math.random() * 10 + "s";
+              heart.style.transform =
+                "scale(" + (Math.random() * 0.5 + 0.5) + ")";
+              heartContainer.appendChild(heart);
+            }
+          }
         }
       });
+
+      /* ===== INITIALIZATION ===== */
+      createParticles();
     </script>
   </body>
 </html>
